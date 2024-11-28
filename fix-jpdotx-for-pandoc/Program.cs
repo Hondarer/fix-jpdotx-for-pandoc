@@ -109,10 +109,13 @@ namespace fix_jpdotx_for_pandoc
 
                         if (targetStyle != null)
                         {
-                            Console.WriteLine($"スタイル '{targetStyle.StyleName?.Val}' を見つけました。");
+                            //Console.WriteLine($"スタイル '{targetStyle.StyleName?.Val}' を見つけました。");
 
-                            if(targetStyle.StyleName?.Val != newStyleName)
+                            if (targetStyle.StyleName?.Val != newStyleName)
                             {
+                                // スタイル名を置換 (実はいらないかも)
+                                Console.WriteLine($"スタイル名を '{targetStyle.StyleName?.Val}' から '{newStyleName}' に変更します。");
+
                                 // 競合チェック: newStyleName が既存のスタイル名と競合する場合スキップ
                                 if (styles.Any(style => style.StyleName?.Val == newStyleName))
                                 {
@@ -120,12 +123,19 @@ namespace fix_jpdotx_for_pandoc
                                     continue;
                                 }
 
-                                // スタイル名を置換 (実はいらないかも)
-                                Console.WriteLine($"スタイル名を '{targetStyle.StyleName?.Val}' から '{newStyleName}' に変更します。");
 #pragma warning disable CS8602 // null 参照の可能性があるものの逆参照です。
                                 targetStyle.StyleName.Val = newStyleName;
 #pragma warning restore CS8602 // null 参照の可能性があるものの逆参照です。
                             }
+
+                            // すでにスタイルIDが期待通りなら何もしない
+                            if (targetStyle.StyleId == newStyleID)
+                            {
+                                continue;
+                            }
+
+                            // スタイルIDを置換
+                            Console.WriteLine($"スタイルIDを '{targetStyle.StyleId}' から '{newStyleID}' に変更します。");
 
                             // 競合チェック: newStyleID が既存のスタイル名と競合する場合スキップ
                             if (styles.Any(style => style.StyleId == newStyleID))
@@ -134,8 +144,6 @@ namespace fix_jpdotx_for_pandoc
                                 continue;
                             }
 
-                            // スタイルIDを置換
-                            Console.WriteLine($"スタイルIDを '{targetStyle.StyleId}' から '{newStyleID}' に変更します。");
                             var oldStyleId = targetStyle.StyleId;
                             targetStyle.StyleId = newStyleID;
 
