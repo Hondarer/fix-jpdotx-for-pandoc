@@ -7,8 +7,8 @@ namespace fix_jpdotx_for_pandoc
     {
         static void Main(string[] args)
         {
-            string sourceFilePath = @"docx-style.dotx";
-            string destinationFilePath = @"docx-style.dotx";
+            string sourceFilePath = @"docx-template.dotx";
+            string destinationFilePath = @"docx-template.dotx";
 
             // 置換前後のスタイル名を辞書として定義
             var styleNameMappings = new Dictionary<string, string>
