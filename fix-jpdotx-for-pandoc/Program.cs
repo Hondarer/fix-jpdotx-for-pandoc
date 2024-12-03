@@ -8,7 +8,7 @@ namespace fix_jpdotx_for_pandoc
         static void Main(string[] args)
         {
             string sourceFilePath = @"docx-style.dotx";
-            string destinationFilePath = @"_docx-style.dotx";
+            string destinationFilePath = @"docx-style.dotx";
 
             // 置換前後のスタイル名を辞書として定義
             var styleNameMappings = new Dictionary<string, string>
@@ -70,7 +70,10 @@ namespace fix_jpdotx_for_pandoc
             try
             {
                 // 元のファイルをコピーして新しいファイルに保存
-                File.Copy(sourceFilePath, destinationFilePath, overwrite: true);
+                if (sourceFilePath != destinationFilePath)
+                {
+                    File.Copy(sourceFilePath, destinationFilePath, overwrite: true);
+                }
 
                 // 新しいファイルを読み書きモードで開く
                 using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(destinationFilePath, true))
